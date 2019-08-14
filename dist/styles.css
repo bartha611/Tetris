@@ -1,0 +1,34 @@
+body {
+  background: black;
+}
+#app {
+  margin: 0 auto;
+  height: 100%;
+  width: 50%;
+}
+#board {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 300px;
+  height: 600px;
+  margin-top: 100px;
+}
+.row {
+  display: flex;
+  width: 100%;
+  height: 5%;
+}
+.cell {
+  width: 10%;
+  height: 100%;
+}
+.cell:first-child {
+  border-left: 1px solid white;
+}
+.cell:last-child {
+  border-right: 1px solid white;
+}
+.row:last-child {
+  border-bottom: 1px solid white;
+}
