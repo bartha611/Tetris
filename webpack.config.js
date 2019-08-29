@@ -7,7 +7,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx"]
   },
-  mode: "production",
+  devtool: "source-map",
   module: {
     rules: [
       {
