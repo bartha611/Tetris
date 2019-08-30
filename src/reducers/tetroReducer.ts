@@ -11,6 +11,7 @@ const initalState: types.tetroState = {
   currentShape: randomShape,
   coordinates: tetronimo[randomShape].coordinates,
   index: 0,
+  color: tetronimo[randomShape].color,
   board: board
 };
 
@@ -19,6 +20,10 @@ export const tetroReducer = (
   action: types.tetroAction
 ): types.tetroState => {
   switch (action.type) {
+    case types.doNothing:
+      return {
+        ...state
+      }
     case types.moveDown:
       return {
         ...state,
@@ -27,7 +32,7 @@ export const tetroReducer = (
     case types.moveUp:
       return {
         ...state,
-        coordinates: action.payload
+        index: action.payload
       };
     case types.moveRight:
       return {

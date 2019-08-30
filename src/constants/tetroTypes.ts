@@ -2,10 +2,11 @@ export const moveLeft = "moveLeft";
 export const moveRight = "moveRight";
 export const moveDown = "moveDown";
 export const moveUp = "moveUp";
+export const doNothing = "doNothing"
 
 export interface tetroMoveAction {
   type: string;
-  payload: number[][];
+  payload?: number[][] | number;
 }
 
 interface shape {
@@ -38,6 +39,7 @@ export interface tetroState {
   currentShape: string;
   coordinates: number[][];
   index: number;
+  color: string;
   board: cell[][];
 }
 

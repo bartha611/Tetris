@@ -7,25 +7,23 @@ import "./game.css";
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
   const gameState: any = useSelector(state => state);
-  const boardObject: types.cell[][] = gameState.tetro.board;
+  const tetroObject = gameState.tetro;
   const handleKeydown = (e: KeyboardEvent): any => {
     const key = e.keyCode;
-    e.preventDefault();
     switch (key) {
       case 37:
-        return dispatch(actions.moveLeft([[]]));
+        return dispatch(actions.moveLeft(tetroObject.coordinates));
       case 38:
-        return dispatch(actions.moveUp([[]]));
+        return dispatch(actions.moveUp(tetroObject.index));
       case 39:
-        return dispatch(actions.moveRight([[]]));
+        return dispatch(actions.moveRight(tetroObject.coordinates));
       case 40:
-        return dispatch(actions.moveDown([[]]));
+        return dispatch(actions.moveDown(tetroObject.coordinates, tetroObject.board));
       default:
         return;
     }
   };
   const handleKeyup = (e: KeyboardEvent): any => {
-    e.preventDefault();
     console.log(`You entered ${e.keyCode}`);
   };
   React.useEffect(() => {
@@ -42,8 +40,12 @@ export const Game: React.FC = () => {
     for (let i = 0; i < 22; i++) {
       items = [];
       for (let k = 0; k < 10; k++) {
-        let cell = boardObject[i][k];
-        if (cell.filled === false) {
+        let cell = tetroObject.board[i][k];
+        let cellNumber = 10*i + k;
+        if (tetroObject.coordinates[tetroObject.index].indexOf(cellNumber) != -1) {
+          items.push(<div className="cell" style={{backgroundColor: tetroObject.color}} />)
+        }
+        else if (cell.filled === false) {
           items.push(<div className="cell" />);
         } else {
           items.push(

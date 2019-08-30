@@ -38,7 +38,12 @@ export const tetronimo: types.Tetronimo = {
     color: "turquoise"
   },
   O: {
-    coordinates: [[5, 6, 15, 16]],
+    coordinates: [
+      [5, 6, 15, 16],
+      [5, 6, 15, 16],
+      [5, 6, 15, 16],
+      [5, 6, 15, 16]
+  ],
     color: "yellow"
   },
   S: {
