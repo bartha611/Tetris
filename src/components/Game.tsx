@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../actions/tetroAction";
-import * as types from "../constants/tetroTypes";
+
 import "./game.css";
+import { createBoard } from "./createBoard";
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,48 +19,33 @@ export const Game: React.FC = () => {
       case 39:
         return dispatch(actions.moveRight(tetroObject.coordinates));
       case 40:
-        return dispatch(actions.moveDown(tetroObject.coordinates, tetroObject.board));
+        // check if bottom is filled
+        const { coordinates, index, board } = tetroObject;
+        const indices: number[] = coordinates[index];
+        for (let k = 0; k < 4; k++) {
+          let checkRow = Math.floor(indices[k] / 10) + 10;
+          let checkColumn = indices[k] % 10;
+          if (
+            indices[k] + 10 > 210 ||
+            board[checkRow][checkColumn].filled === true
+          ) {
+            return dispatch(actions.addBlock(tetroObject));
+          }
+        }
+        return dispatch(actions.moveDown(tetroObject));
       default:
         return;
     }
   };
-  const handleKeyup = (e: KeyboardEvent): any => {
-    console.log(`You entered ${e.keyCode}`);
-  };
   React.useEffect(() => {
     window.addEventListener("keydown", handleKeydown);
-    window.addEventListener("keyup", handleKeyup);
     return () => {
       window.removeEventListener("keydown", handleKeydown);
-      window.removeEventListener("keyup", handleKeyup);
     };
   });
-  const createBoard = () => {
-    let boardHTMLObject: JSX.Element[] = [];
-    let items: JSX.Element[] = [];
-    for (let i = 0; i < 22; i++) {
-      items = [];
-      for (let k = 0; k < 10; k++) {
-        let cell = tetroObject.board[i][k];
-        let cellNumber = 10*i + k;
-        if (tetroObject.coordinates[tetroObject.index].indexOf(cellNumber) != -1) {
-          items.push(<div className="cell" style={{backgroundColor: tetroObject.color}} />)
-        }
-        else if (cell.filled === false) {
-          items.push(<div className="cell" />);
-        } else {
-          items.push(
-            <div className="cell" style={{ backgroundColor: cell.color }} />
-          );
-        }
-      }
-      boardHTMLObject.push(<div className="row">{items}</div>);
-    }
-    return boardHTMLObject;
-  };
   return (
     <div id="app">
-      <div id="board">{createBoard()}</div>
+      <div id="board">{createBoard(tetroObject)}</div>
     </div>
   );
 };
