@@ -20,10 +20,15 @@ export const tetroReducer = (
   action: types.tetroAction
 ): types.tetroState => {
   switch (action.type) {
-    case types.doNothing:
+    case types.addBlock:
       return {
-        ...state
-      }
+        ...state,
+        board: action.payload.board,
+        index: action.payload.index,
+        coordinates: action.payload.coordinates,
+        color: action.payload.color,
+        currentShape: action.payload.currentShape
+      };
     case types.moveDown:
       return {
         ...state,

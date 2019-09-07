@@ -1,21 +1,18 @@
 import * as types from "../constants/tetroTypes";
+import { tetronimo } from "../gameConfig/tetroShapes";
 
-// TODO
 export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
   const newTetro = currentTetro.map(row => {
-    let checkRow: number[] = row.sort((a,b) => {
-      return (a % 10) - (b % 10)
-    })
+    let checkRow: number[] = row.sort((a, b) => {
+      return (a % 10) - (b % 10);
+    });
     if (checkRow[0] % 10 === 0) {
-      console.log("hello");
-      return row
-    } else {
-      const newTetro =  row.map(cell => {
-        return cell -= 1
-      })
-      return newTetro
+      return row;
     }
-  })
+    return row.map(cell => {
+      return (cell -= 1);
+    });
+  });
   return {
     type: types.moveLeft,
     payload: newTetro
@@ -25,37 +22,37 @@ export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
 // TODO
 export const moveRight = (currentTetro: number[][]): types.tetroMoveAction => {
   const newTetro = currentTetro.map(row => {
-    const checkRow: number[] = row.sort((a,b) => {
-      return (b % 10) - (a % 10)
-    })
+    const checkRow: number[] = row.sort((a, b) => {
+      return (b % 10) - (a % 10);
+    });
     if (checkRow[0] % 10 === 9) {
-      return row
-    } else {
-      const newRow = row.map(cell => {
-        return cell += 1
-      })
-      return newRow
+      return row;
     }
-  })
+    return row.map(cell => {
+      return (cell += 1);
+    });
+  });
   return {
     type: types.moveRight,
     payload: newTetro
   };
 };
 
-// Todo 
-export const moveDown = (
-  currentTetro: number[][],
-  board: types.cell[][]
-): types.tetroMoveAction => {
-  for (let row = 0; row < currentTetro.length; row++) {
-    for (let column = 0; column < currentTetro[row].length; column++) {
-      currentTetro[row][column] += 10;
+export const moveDown = (state: types.tetroState): types.tetroMoveAction => {
+  const newCoordinates: number[][] = state.coordinates.map(rotation => {
+    const checkRotation: number[] = rotation.sort((a, b) => {
+      return b - a;
+    });
+    if (Math.floor(checkRotation[0] / 10) > 21) {
+      return rotation;
     }
-  }
+    return rotation.map(cell => {
+      return (cell += 10);
+    });
+  });
   return {
     type: types.moveDown,
-    payload: currentTetro
+    payload: newCoordinates
   };
 };
 
@@ -65,4 +62,32 @@ export const moveUp = (tetronimoIndex: number): types.tetroMoveAction => {
     type: types.moveUp,
     payload: tetronimoIndex
   };
+};
+
+export const addBlock = (state: types.tetroState): types.tetroMoveAction => {
+  let { coordinates, color, index, board, currentShape } = state;
+  const indices: number[] = coordinates[index];
+  for (let k = 0; k < 4; k++) {
+    let row = Math.floor(indices[k] / 10);
+    let column = indices[k] % 10;
+    board[row][column] = {
+      filled: true,
+      color: color
+    };
+  }
+  const newShape = Object.keys(tetronimo)[Math.floor(Math.random() * 7)];
+  currentShape = newShape;
+  coordinates = tetronimo[newShape].coordinates;
+  color = tetronimo[newShape].color;
+  return {
+    type: types.addBlock,
+    payload: {
+      currentShape: currentShape,
+      coordinates: coordinates,
+      color: color,
+      board: board,
+      index: 0
+    }
+  };
+  // get new color, coordinates, and currentShape
 };
