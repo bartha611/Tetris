@@ -19,7 +19,6 @@ export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
   };
 };
 
-// TODO
 export const moveRight = (currentTetro: number[][]): types.tetroMoveAction => {
   const newTetro = currentTetro.map(row => {
     const checkRow: number[] = row.sort((a, b) => {
@@ -89,5 +88,33 @@ export const addBlock = (state: types.tetroState): types.tetroMoveAction => {
       index: 0
     }
   };
-  // get new color, coordinates, and currentShape
+};
+
+export const getNewBoard = (board: types.cell[][]): types.tetroMoveAction => {
+  let newBoard: types.cell[][] = board;
+  // create an empty row to replace full rows.  It will be put on top
+  const newRow: types.cell[] = [];
+  for (let i = 0; i < 10; i++) {
+    newRow.push({ filled: false });
+  }
+  let totalFilled: number = 0;
+  // iterate from bottom of board to find full rows
+  for (let row = board.length - 1; row > -1; row--) {
+    for (let column = 0; column < 10; column++) {
+      if (board[row][column].filled === false) {
+        newBoard[row + totalFilled] = board[row];
+        break;
+      } else if (column === 9 && board[row][column].filled === true) {
+        totalFilled++;
+      }
+    }
+    // replace full rows with empty rows on top of board
+    for (let k = 0; k < totalFilled; k++) {
+      newBoard[k] = newRow;
+    }
+  }
+  return {
+    type: types.getNewBoard,
+    payload: newBoard
+  };
 };

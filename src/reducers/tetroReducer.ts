@@ -49,6 +49,11 @@ export const tetroReducer = (
         ...state,
         coordinates: action.payload
       };
+    case types.getNewBoard:
+      return {
+        ...state,
+        board: action.payload
+      };
     default:
       return state;
   }

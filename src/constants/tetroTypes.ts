@@ -3,6 +3,7 @@ export const moveRight = "moveRight";
 export const moveDown = "moveDown";
 export const moveUp = "moveUp";
 export const addBlock = "addBlock";
+export const getNewBoard = "getNewBoard";
 
 export interface cell {
   filled: boolean;
@@ -19,7 +20,7 @@ export interface tetroState {
 
 export interface tetroMoveAction {
   type: string;
-  payload?: number[][] | number | tetroState;
+  payload?: number[][] | number | tetroState | cell[][];
 }
 
 interface shape {

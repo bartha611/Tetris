@@ -17,9 +17,8 @@ export const Game: React.FC = () => {
     if (time) {
       interval = setInterval(() => {
         dispatch(actions.moveDown(tetroObject));
-      }, 500);
+      }, 300);
     }
-
     return (): void => {
       clearInterval(interval);
     };
@@ -27,6 +26,7 @@ export const Game: React.FC = () => {
   React.useEffect((): any => {
     if (!helper.checkBottom(tetroObject, tetroObject.index)) {
       dispatch(actions.addBlock(tetroObject));
+      dispatch(actions.getNewBoard(tetroObject.board));
     }
   }, [dispatch, tetroObject]);
   const handleKeydown = (e: KeyboardEvent): any => {
@@ -58,23 +58,29 @@ export const Game: React.FC = () => {
     }
   };
   React.useEffect(() => {
-    window.addEventListener("keydown", handleKeydown);
+    window.addEventListener("keypress", handleKeydown);
     return () => {
-      window.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("keypress", handleKeydown);
     };
   });
   const Button = () => {
     if (!time) {
-      return <button onClick={() => setTimer(true)}>Start</button>;
+      return (
+        <button className="btn" onClick={() => setTimer(true)}>
+          <i className="fa fa-play" />
+        </button>
+      );
     }
-    return <button onClick={() => setTimer(false)}>Stop</button>;
+    return (
+      <button className="btn" onClick={() => setTimer(false)}>
+        <i className="fa fa-pause" />
+      </button>
+    );
   };
   return (
     <div id="app">
       <div id="board">{createBoard(tetroObject)}</div>
-      <div className="btn-group">
-        <button className="btn">{Button()}</button>
-      </div>
+      <div className="btn-group">{Button()}</div>
     </div>
   );
 };
