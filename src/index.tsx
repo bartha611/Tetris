@@ -1,17 +1,22 @@
 import * as ReactDOM from "react-dom";
 import * as React from "react";
-import "../dist/styles.css";
-import { Game } from "./components/Game";
+import { Game } from "./components/gameBoard/game";
+import { MenuPanel } from "./components/menuPanel/menupanel";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { rootReducer } from "./reducers";
+import "./index.css";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <Game />
+      <div id="app">
+        <Game />
+        <MenuPanel />
+      </div>
     </Provider>
   );
 };

@@ -1,0 +1,45 @@
+body {
+  background: black;
+}
+#gameBoard {
+  height: 660px;
+  width: 300px;
+  box-sizing: border-box;
+}
+#board {
+  border: 2px solid white;
+  height: 100%;
+}
+.row {
+  display: flex;
+  height: 30px;
+  width: 100%;
+}
+.cell {
+  box-sizing: border-box;
+  width: 10%;
+}
+.filled {
+  border: 1px solid white;
+}
+.animation {
+  animation-name: disappear;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: rotatex(90deg);
+  }
+  50% {
+    opacity: 0.5;
+    transform: rotatex(0deg);
+  }
+  100% {
+    opacity: 0;
+    display: none;
+    transform: rotatex(90deg);
+  }
+}

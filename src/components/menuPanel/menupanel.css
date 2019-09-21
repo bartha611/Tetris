@@ -1,0 +1,28 @@
+body {
+  color: white;
+}
+#menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.title {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.game-info {
+  margin-bottom: 10px;
+  padding: 10px 5px 10px 5px;
+  border: 2px solid white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.button {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+}

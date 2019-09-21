@@ -1,15 +1,15 @@
-// create initial board for tetris
+// create initialBoard for tetris
 import { gameOptions } from "./options";
-import * as types from "../constants/tetroTypes";
+import * as types from "../constants/boardTypes";
 
-const boardObject: types.cell[][] = [];
+const initialBoard: types.cell[][] = [];
 
 for (let row = 0; row < gameOptions.totalRows; row++) {
   let items: types.cell[] = [];
   for (let column = 0; column < gameOptions.totalColumns; column++) {
     items.push({ filled: false });
   }
-  boardObject.push(items);
+  initialBoard.push(items);
 }
 
-export default boardObject;
+export default initialBoard;

@@ -1,0 +1,36 @@
+import * as types from "../constants/gameTypes";
+
+const initialState: types.gameState = {
+  score: 0,
+  lines: 0,
+  pause: false,
+  level: 1,
+  interval: 500
+};
+
+export const gameReducer = (
+  state: types.gameState = initialState,
+  action: types.gameAction
+) => {
+  switch (action.type) {
+    case types.addScore:
+      return {
+        ...state,
+        score: action.score,
+        lines: action.lines,
+        level: action.level
+      };
+    case types.addLines:
+      return {
+        ...state,
+        lines: state.lines + action.lines
+      };
+    case types.playPause:
+      return {
+        ...state,
+        pause: !state.pause
+      };
+    default:
+      return state;
+  }
+};

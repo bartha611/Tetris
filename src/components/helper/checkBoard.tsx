@@ -1,10 +1,12 @@
-import * as types from "../constants/tetroTypes";
+import * as types from "../../constants/tetroTypes";
+import * as boardTypes from "../../constants/boardTypes";
 
 export const checkBottom = (
   state: types.tetroState,
-  index: number
+  boardState: boardTypes.boardState
 ): boolean => {
-  const { board, coordinates } = state;
+  const { coordinates, index } = state;
+  const { board } = boardState;
   const checkIndices: number[] = coordinates[index];
   for (let k = 0; k < 4; k++) {
     let checkRow = Math.floor(checkIndices[k] / 10);
@@ -16,8 +18,12 @@ export const checkBottom = (
   return true;
 };
 
-export const checkRight = (state: types.tetroState, index: number): boolean => {
-  const { board, coordinates } = state;
+export const checkRight = (
+  state: types.tetroState,
+  boardState: boardTypes.boardState
+): boolean => {
+  const { coordinates, index } = state;
+  const { board } = boardState;
   const checkIndices: number[] = coordinates[index];
   for (let k = 0; k < 4; k++) {
     let checkRow = Math.floor(checkIndices[k] / 10);
@@ -29,8 +35,12 @@ export const checkRight = (state: types.tetroState, index: number): boolean => {
   return true;
 };
 
-export const checkLeft = (state: types.tetroState, index: number): boolean => {
-  const { board, coordinates } = state;
+export const checkLeft = (
+  state: types.tetroState,
+  boardState: boardTypes.boardState
+): boolean => {
+  const { coordinates, index } = state;
+  const { board } = boardState;
   const checkIndices: number[] = coordinates[index];
   for (let k = 0; k < 4; k++) {
     let checkRow = Math.floor(checkIndices[k] / 10);
@@ -42,9 +52,12 @@ export const checkLeft = (state: types.tetroState, index: number): boolean => {
   return true;
 };
 
-export const checkRotation = (state: types.tetroState): boolean => {
-  const { board, coordinates } = state;
-  let { index } = state;
+export const checkRotation = (
+  state: types.tetroState,
+  boardState: boardTypes.boardState
+): boolean => {
+  let { coordinates, index } = state;
+  const { board } = boardState;
   index = (index + 1) % 4;
   const checkIndices: number[] = coordinates[index];
   for (let k = 0; k < 4; k++) {

@@ -1,5 +1,6 @@
 import * as types from "../constants/tetroTypes";
 import { tetronimo } from "../gameConfig/tetroShapes";
+import {} from "../components/helper/checkBoard";
 
 export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
   const newTetro = currentTetro.map(row => {
@@ -14,7 +15,7 @@ export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
     });
   });
   return {
-    type: types.moveLeft,
+    type: types.move,
     payload: newTetro
   };
 };
@@ -32,7 +33,7 @@ export const moveRight = (currentTetro: number[][]): types.tetroMoveAction => {
     });
   });
   return {
-    type: types.moveRight,
+    type: types.move,
     payload: newTetro
   };
 };
@@ -50,71 +51,28 @@ export const moveDown = (state: types.tetroState): types.tetroMoveAction => {
     });
   });
   return {
-    type: types.moveDown,
+    type: types.move,
     payload: newCoordinates
   };
 };
 
 export const moveUp = (tetronimoIndex: number): types.tetroMoveAction => {
-  tetronimoIndex = (tetronimoIndex + 1) % 4;
   return {
-    type: types.moveUp,
-    payload: tetronimoIndex
+    type: types.rotate,
+    payload: (tetronimoIndex + 1) % 4
   };
 };
 
-export const addBlock = (state: types.tetroState): types.tetroMoveAction => {
-  let { coordinates, color, index, board, currentShape } = state;
-  const indices: number[] = coordinates[index];
-  for (let k = 0; k < 4; k++) {
-    let row = Math.floor(indices[k] / 10);
-    let column = indices[k] % 10;
-    board[row][column] = {
-      filled: true,
-      color: color
-    };
-  }
-  const newShape = Object.keys(tetronimo)[Math.floor(Math.random() * 7)];
-  currentShape = newShape;
-  coordinates = tetronimo[newShape].coordinates;
-  color = tetronimo[newShape].color;
+export const getblock = (): types.getBlockAction => {
+  const keys = Object.keys(tetronimo);
+  // get random key
+  const randomShape = keys[Math.floor(Math.random() * keys.length)];
   return {
-    type: types.addBlock,
+    type: types.getBlock,
     payload: {
-      currentShape: currentShape,
-      coordinates: coordinates,
-      color: color,
-      board: board,
-      index: 0
+      coordinates: tetronimo[randomShape].coordinates,
+      index: 0,
+      color: tetronimo[randomShape].color
     }
-  };
-};
-
-export const getNewBoard = (board: types.cell[][]): types.tetroMoveAction => {
-  let newBoard: types.cell[][] = board;
-  // create an empty row to replace full rows.  It will be put on top
-  const newRow: types.cell[] = [];
-  for (let i = 0; i < 10; i++) {
-    newRow.push({ filled: false });
-  }
-  let totalFilled: number = 0;
-  // iterate from bottom of board to find full rows
-  for (let row = board.length - 1; row > -1; row--) {
-    for (let column = 0; column < 10; column++) {
-      if (board[row][column].filled === false) {
-        newBoard[row + totalFilled] = board[row];
-        break;
-      } else if (column === 9 && board[row][column].filled === true) {
-        totalFilled++;
-      }
-    }
-    // replace full rows with empty rows on top of board
-    for (let k = 0; k < totalFilled; k++) {
-      newBoard[k] = newRow;
-    }
-  }
-  return {
-    type: types.getNewBoard,
-    payload: newBoard
   };
 };

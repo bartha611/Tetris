@@ -1,26 +1,21 @@
-export const moveLeft = "moveLeft";
-export const moveRight = "moveRight";
-export const moveDown = "moveDown";
-export const moveUp = "moveUp";
-export const addBlock = "addBlock";
-export const getNewBoard = "getNewBoard";
-
-export interface cell {
-  filled: boolean;
-  color?: string;
-}
+export const move = "move";
+export const rotate = "rotate";
+export const getBlock = "getBlock";
 
 export interface tetroState {
-  currentShape: string;
   coordinates: number[][];
   index: number;
   color: string;
-  board: cell[][];
 }
 
 export interface tetroMoveAction {
   type: string;
-  payload?: number[][] | number | tetroState | cell[][];
+  payload: number | number[][];
+}
+
+export interface getBlockAction {
+  type: string;
+  payload: tetroState;
 }
 
 interface shape {
@@ -47,5 +42,5 @@ export interface keyboardObject {
 
 export interface tetroAction {
   type: string;
-  payload?: any;
+  payload: any;
 }
