@@ -12,16 +12,16 @@ export const boardReducer = (
 ) => {
   switch (action.type) {
     case types.addBlock:
+      return {
+        board: action.board,
+        totalComplete: action.totalComplete
+      };
+    case types.boardReset:
       console.log(action.board)
       return {
         ...state,
         board: action.board,
-        totalComplete: action.totalComplete
-      };
-    case types.reset:
-      return {
-        ...state,
-        board: action.board
+        totalComplete: []
       };
     case types.removeBlock:
       return {

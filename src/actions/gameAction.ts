@@ -36,3 +36,13 @@ export const addScore = (
     interval
   };
 };
+
+export const reset = () => {
+  return {
+    type: types.gameReset,
+    score: 0,
+    lines: 0,
+    level: 1,
+    interval: 500
+  }
+}

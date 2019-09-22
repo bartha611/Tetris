@@ -1,14 +1,27 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../constants/gameTypes";
+import * as boardTypes from '../../constants/boardTypes'
 import "./menupanel.css";
 import { playPause } from "../../actions/gameAction";
-import { reset } from "../../actions/boardAction";
+import * as boardActions from '../../actions/boardAction';
+import * as tetroActions from '../../actions/tetroAction';
+import * as gameActions from '../../actions/gameAction'
+
+const sleep = (m: number) => new Promise(resolve => setTimeout(resolve, ))
 
 export const MenuPanel = () => {
   const State: any = useSelector(state => state);
   const gameObject: types.gameState = State.game;
+  const boardObject: boardTypes.boardState = State.board;
   const dispatch = useDispatch();
+  const reset = () => {
+    dispatch(boardActions.reset())
+    dispatch(gameActions.reset())
+    sleep(1000).then(() => {
+      dispatch(tetroActions.getblock(boardObject))
+    })
+  }
   const button = () => {
     if (gameObject.pause) {
       return (
@@ -41,7 +54,7 @@ export const MenuPanel = () => {
       <div className="button">
         <div className="play">{button()}</div>
         <div className="reset">
-          <button type="submit" onClick={() => dispatch(reset())}>
+          <button type="submit" onClick={() => reset()}>
             <i className="fa fa-refresh" />
           </button>
         </div>

@@ -1,10 +1,10 @@
 import * as types from "../constants/tetroTypes";
-import * as boardTypes from "../constants/boardTypes"
-import * as gameTypes from '../constants/gameTypes'
+import * as boardTypes from "../constants/boardTypes";
+import * as gameTypes from "../constants/gameTypes";
 import { tetronimo } from "../gameConfig/tetroShapes";
 import {} from "../components/helper/checkBoard";
 
-export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
+export const moveLeft = (currentTetro: number[][]): types.tetroAction => {
   const newTetro = currentTetro.map(row => {
     let checkRow: number[] = row.sort((a, b) => {
       return (a % 10) - (b % 10);
@@ -18,11 +18,11 @@ export const moveLeft = (currentTetro: number[][]): types.tetroMoveAction => {
   });
   return {
     type: types.move,
-    payload: newTetro
+    coordinates: newTetro
   };
 };
 
-export const moveRight = (currentTetro: number[][]): types.tetroMoveAction => {
+export const moveRight = (currentTetro: number[][]): types.tetroAction => {
   const newTetro = currentTetro.map(row => {
     const checkRow: number[] = row.sort((a, b) => {
       return (b % 10) - (a % 10);
@@ -36,11 +36,11 @@ export const moveRight = (currentTetro: number[][]): types.tetroMoveAction => {
   });
   return {
     type: types.move,
-    payload: newTetro
+    coordinates: newTetro
   };
 };
 
-export const moveDown = (state: types.tetroState): types.tetroMoveAction => {
+export const moveDown = (state: types.tetroState): types.tetroAction => {
   const newCoordinates: number[][] = state.coordinates.map(rotation => {
     const checkRotation: number[] = rotation.sort((a, b) => {
       return b - a;
@@ -54,39 +54,39 @@ export const moveDown = (state: types.tetroState): types.tetroMoveAction => {
   });
   return {
     type: types.move,
-    payload: newCoordinates
+    coordinates: newCoordinates
   };
 };
 
-export const moveUp = (tetronimoIndex: number): types.tetroMoveAction => {
+export const moveUp = (tetronimoIndex: number): types.tetroAction => {
   return {
     type: types.rotate,
-    payload: (tetronimoIndex + 1) % 4
+    index: (tetronimoIndex + 1) % 4
   };
 };
 
-export const getblock = (boardState: boardTypes.boardState): types.getBlockAction => {
+export const getblock = (
+  boardState: boardTypes.boardState
+): types.tetroAction => {
   const { board } = boardState;
   const keys = Object.keys(tetronimo);
   // get random key
   const randomShape = keys[Math.floor(Math.random() * keys.length)];
-  let indices: number[] = tetronimo[randomShape].coordinates[0]
+  let indices: number[] = tetronimo[randomShape].coordinates[0];
   const takenCell = indices.filter(cell => {
     let row = Math.floor(cell / 10);
     let column = cell % 10;
-    return board[row][column].filled === true
-  })
+    return board[row][column].filled === true;
+  });
   if (takenCell.length > 0) {
     return {
-      type: gameTypes.gameOver,
-    }
+      type: gameTypes.gameOver
+    };
   }
   return {
     type: types.getBlock,
-    payload: {
-      coordinates: tetronimo[randomShape].coordinates,
-      index: 0,
-      color: tetronimo[randomShape].color
-    }
+    coordinates: tetronimo[randomShape].coordinates,
+    index: 0,
+    color: tetronimo[randomShape].color
   };
 };

@@ -8,14 +8,11 @@ export interface tetroState {
   color: string;
 }
 
-export interface tetroMoveAction {
+export interface tetroAction {
   type: string;
-  payload: number | number[][];
-}
-
-export interface getBlockAction {
-  type: string;
-  payload?: tetroState;
+  coordinates?: number[][];
+  index?: number;
+  color?: string
 }
 
 interface shape {
@@ -40,7 +37,3 @@ export interface keyboardObject {
   40: string;
 }
 
-export interface tetroAction {
-  type: string;
-  payload: any;
-}

@@ -7,29 +7,34 @@ export const addBlock = (
   boardState: types.boardState
 ): types.boardAction => {
   const { coordinates, color, index } = state;
-  let { board, totalComplete } = boardState;
-  let newBoard = board;
+  const { board, totalComplete } = boardState;
+  let newBoard: types.cell[][] = [];
+  let newComplete: number[] = [];
   const indices: number[] = coordinates[index];
-  for (let k = 0; k < 4; k++) {
-    let row = Math.floor(indices[k] / 10);
-    let column = indices[k] % 10;
-    newBoard[row][column] = {
-      filled: true,
-      color: color
-    };
-
-    // check if row is complete
-    const filledRow = board[row].filter(column => {
-      return !column.filled;
-    });
-    if (filledRow.length === 0) {
-      totalComplete.push(row);
+  for (let row = 0; row < 22; row++) {
+    let boardRow: types.cell[] = []
+    for (let column = 0; column < 10; column++) {
+      let index = row*10 + column;
+      if (indices.indexOf(index) !== -1) {
+        boardRow.push({filled: true, color: color})
+      } else {
+        boardRow.push(board[row][column])
+      }
+    }
+    newBoard.push(boardRow);
+    let filledRow:number = boardRow.filter(col => {
+      return !col.filled;
+    }).length
+    if (filledRow === 0) {
+      newComplete.push(row)
     }
   }
+  console.log(newBoard);
+  console.log(newComplete)
   return {
     type: types.addBlock,
     board: newBoard,
-    totalComplete
+    totalComplete: newComplete
   };
 };
 
@@ -42,8 +47,9 @@ export const reset = (): types.boardAction => {
     }
     initialBoard.push(items);
   }
+  console.log(initialBoard);
   return {
-    type: types.reset,
+    type: types.boardReset,
     board: initialBoard
   };
 };
@@ -61,6 +67,7 @@ export const getAnimation = (boardState: types.boardState) => {
       newBoard.push(board[k])
     }
   }
+  console.log(newBoard)
   return {
     type: types.getAnimation,
     board: newBoard
@@ -72,7 +79,7 @@ export const removeBlock = (boardState: types.boardState) => {
     let newBoard: types.cell[][] = [];
     let row: types.cell[] = [];
     for (let column = 0; column < 10; column++) {
-      row.push({filled: false, color: "black"})
+      row.push({filled: false})
     }
     for (let i = 0; i < totalComplete.length; i++) {
       newBoard.push(row);

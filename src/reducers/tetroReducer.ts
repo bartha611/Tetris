@@ -21,18 +21,18 @@ export const tetroReducer = (
     case types.move:
       return {
         ...state,
-        coordinates: action.payload
+        coordinates: action.coordinates
       };
     case types.rotate:
       return {
         ...state,
-        index: action.payload
+        index: action.index
       };
     case types.getBlock:
       return {
-        coordinates: action.payload.coordinates,
-        index: action.payload.index,
-        color: action.payload.color
+        coordinates: action.coordinates,
+        index: action.index,
+        color: action.color
       };
     default:
       return state;

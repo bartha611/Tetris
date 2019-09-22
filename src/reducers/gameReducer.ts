@@ -38,6 +38,15 @@ export const gameReducer = (
         pause: true,
         gameOver: true
       }
+    case types.gameReset:
+      return {
+        ...state,
+        pause: false,
+        score: 0,
+        level: 1,
+        lines: 0,
+        interval: 500
+      }
     default:
       return state;
   }

@@ -43,17 +43,17 @@ export const Game: React.FC = () => {
     if (!checkBottom(tetro, boardObject)) {
       dispatch(boardActions.addBlock(tetro, boardObject));
       dispatch(actions.getblock(boardObject));
-
-      // if complete render animation
-      if (boardObject.totalComplete.length > 0) {
-        dispatch(gameActions.playPause());
-        dispatch(boardActions.getAnimation(boardObject));
-        sleep(500).then(() => {
-          dispatch(gameActions.addScore(boardObject, game));
-          dispatch(boardActions.removeBlock(boardObject))
-          dispatch(gameActions.playPause());
-        })
-      }
+    }
+    // if complete render animation
+    if (boardObject.totalComplete.length > 0) {
+      dispatch(gameActions.addScore(boardObject, game));
+      // dispatch(boardActions.getAnimation(boardObject));
+      dispatch(boardActions.removeBlock(boardObject));
+      // sleep(1000).then(() => {
+      //   dispatch(gameActions.addScore(boardObject, game));
+      //   dispatch(boardActions.removeBlock(boardObject))
+      //   dispatch(gameActions.playPause());
+      // })
     }
   }, [dispatch, tetro, boardObject, game]);
   const handleKeydown = (e: KeyboardEvent): any => {
