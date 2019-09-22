@@ -20,18 +20,19 @@ export const addScore = (
     4: 1200
   };
   const { totalComplete } = boardState;
-  let { score, lines, level } = gameState;
+  let { score, lines, level, interval } = gameState;
   score += scoring[totalComplete.length] * level;
   lines += totalComplete.length;
-  if (lines > 10) {
+  if (lines > 9) {
     lines -= 10;
     level += 1;
+    interval *= 2/3
   }
-  console.log(level);
   return {
     type: types.addScore,
     score,
     lines,
-    level
+    level,
+    interval
   };
 };

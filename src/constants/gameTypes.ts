@@ -1,6 +1,7 @@
 export const addScore = "addScore";
 export const addLines = "addLines";
 export const playPause = "playPause";
+export const gameOver = "gameOver"
 
 export interface gameState {
   score: number;
@@ -8,6 +9,7 @@ export interface gameState {
   level: number;
   pause: boolean;
   interval: number;
+  gameOver: boolean;
 }
 
 export interface gameAction {
@@ -15,4 +17,5 @@ export interface gameAction {
   score?: number;
   lines?: number;
   level?: number;
+  interval?: number;
 }

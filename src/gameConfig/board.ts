@@ -7,7 +7,7 @@ const initialBoard: types.cell[][] = [];
 for (let row = 0; row < gameOptions.totalRows; row++) {
   let items: types.cell[] = [];
   for (let column = 0; column < gameOptions.totalColumns; column++) {
-    items.push({ filled: false });
+    items.push({ filled: false, color: "black" });
   }
   initialBoard.push(items);
 }

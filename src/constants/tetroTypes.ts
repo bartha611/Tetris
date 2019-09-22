@@ -15,7 +15,7 @@ export interface tetroMoveAction {
 
 export interface getBlockAction {
   type: string;
-  payload: tetroState;
+  payload?: tetroState;
 }
 
 interface shape {

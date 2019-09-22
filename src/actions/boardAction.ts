@@ -1,5 +1,6 @@
 import * as types from "../constants/boardTypes";
 import * as tetroTypes from "../constants/tetroTypes";
+import initialBoard from '../gameConfig/board'
 
 export const addBlock = (
   state: tetroTypes.tetroState,
@@ -7,11 +8,12 @@ export const addBlock = (
 ): types.boardAction => {
   const { coordinates, color, index } = state;
   let { board, totalComplete } = boardState;
+  let newBoard = board;
   const indices: number[] = coordinates[index];
   for (let k = 0; k < 4; k++) {
     let row = Math.floor(indices[k] / 10);
     let column = indices[k] % 10;
-    board[row][column] = {
+    newBoard[row][column] = {
       filled: true,
       color: color
     };
@@ -26,58 +28,61 @@ export const addBlock = (
   }
   return {
     type: types.addBlock,
-    board,
+    board: newBoard,
     totalComplete
   };
 };
 
 export const reset = (): types.boardAction => {
+  let initialBoard: types.cell[][] = []
+  for (let row = 0; row < 22; row++) {
+    let items: types.cell[] = [];
+    for (let column = 0; column < 10; column++) {
+      items.push({ filled: false, color: "black" });
+    }
+    initialBoard.push(items);
+  }
   return {
-    type: types.reset
+    type: types.reset,
+    board: initialBoard
   };
 };
 
 export const getAnimation = (boardState: types.boardState) => {
-  let { board } = boardState;
-  for (let row = 0; row < board.length; row++) {
-    for (let column = 0; column < 10; column++) {
-      if (!board[row][column].filled) {
-        break;
-      } else if (column === 9 && board[row][column].filled) {
-        board[row].map(column => {
-          column.animation = true;
-          return column;
-        });
-      }
+  const { board, totalComplete } = boardState;
+  let newBoard: types.cell[][] = [];
+  for (let k = 0; k < board.length; k++) {
+    if (totalComplete.indexOf(k) !== -1) {
+      const newRow = board[k];
+      newRow.map(cell => {
+        cell.animation = true
+      })
+    } else {
+      newBoard.push(board[k])
     }
   }
   return {
-    type: types.addBlock,
-    payload: board
+    type: types.getAnimation,
+    board: newBoard
   };
 };
 
 export const removeBlock = (boardState: types.boardState) => {
-  return (dispatch: any) => {
-    let { board, totalComplete } = boardState;
-    let newBoard = board;
-    for (let row = board.length - 1; row > -1; row--) {
-      if (totalComplete.indexOf(row) !== -1) {
-        continue;
-      }
-      let totalRowsFilledBelow: number = totalComplete.filter(filledRow => {
-        return filledRow > row;
-      }).length;
-      newBoard[row + totalRowsFilledBelow] = board[row];
+    const { board, totalComplete} = boardState;
+    let newBoard: types.cell[][] = [];
+    let row: types.cell[] = [];
+    for (let column = 0; column < 10; column++) {
+      row.push({filled: false, color: "black"})
     }
-
-    // add empty rows back into the newBoard
-    for (let k = 0; k < totalComplete.length; k++) {
-      for (let column = 0; column < 10; column++) {
-        newBoard[k][column].filled = false;
+    for (let i = 0; i < totalComplete.length; i++) {
+      newBoard.push(row);
+    }
+    for (let k = 0; k < board.length; k++) {
+      if (totalComplete.indexOf(k) !== -1) {
+        continue
+      } else {
+        newBoard.push(board[k])
       }
     }
-    console.log(newBoard)
-    return dispatch({ type: types.removeBlock, board: newBoard });
+    return { type: types.removeBlock, board: newBoard };
   };
-};

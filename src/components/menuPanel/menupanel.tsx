@@ -28,7 +28,7 @@ export const MenuPanel = () => {
     <div id="menu">
       <div className="game-info">
         <div className="title">Level</div>
-        <div className="value">1</div>
+        <div className="value">{gameObject.level}</div>
       </div>
       <div className="game-info">
         <div className="title">Score</div>

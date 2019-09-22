@@ -28,10 +28,10 @@ export const Game: React.FC = () => {
   const boardObject: boardTypes.boardState = State.board;
   const game: gameTypes.gameState = State.game;
   React.useEffect(() => {
-    if (!game.pause) {
+    if (!game.pause && !game.gameOver) {
       interval = setInterval(() => {
         dispatch(actions.moveDown(tetro));
-      }, 300);
+      }, game.interval);
     } else {
       clearInterval(interval);
     }
@@ -42,24 +42,23 @@ export const Game: React.FC = () => {
   React.useEffect(() => {
     if (!checkBottom(tetro, boardObject)) {
       dispatch(boardActions.addBlock(tetro, boardObject));
-      dispatch(actions.getblock());
+      dispatch(actions.getblock(boardObject));
 
       // if complete render animation
       if (boardObject.totalComplete.length > 0) {
-        clearInterval(interval);
+        dispatch(gameActions.playPause());
         dispatch(boardActions.getAnimation(boardObject));
-        sleep(1000).then(() => {
-          console.log("it worked");
-          console.log("hello there");
-        });
-        dispatch(gameActions.addScore(boardObject, game));
-        dispatch(boardActions.removeBlock(boardObject));
+        sleep(500).then(() => {
+          dispatch(gameActions.addScore(boardObject, game));
+          dispatch(boardActions.removeBlock(boardObject))
+          dispatch(gameActions.playPause());
+        })
       }
     }
   }, [dispatch, tetro, boardObject, game]);
   const handleKeydown = (e: KeyboardEvent): any => {
     const key = e.keyCode;
-    if (game.pause) {
+    if (game.pause || game.gameOver) {
       return;
     }
     switch (key) {
@@ -100,7 +99,11 @@ export const Game: React.FC = () => {
   return (
     <div id="gameBoard">
       <div id="board">{createBoard(tetro, boardObject)}</div>
-      <div id="hell">Hello there</div>
+      {game.gameOver && (
+        <div>
+          <h1>Game Over, bitch</h1>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import * as types from "../constants/tetroTypes";
+import * as boardTypes from "../constants/boardTypes"
+import * as gameTypes from '../constants/gameTypes'
 import { tetronimo } from "../gameConfig/tetroShapes";
 import {} from "../components/helper/checkBoard";
 
@@ -63,10 +65,22 @@ export const moveUp = (tetronimoIndex: number): types.tetroMoveAction => {
   };
 };
 
-export const getblock = (): types.getBlockAction => {
+export const getblock = (boardState: boardTypes.boardState): types.getBlockAction => {
+  const { board } = boardState;
   const keys = Object.keys(tetronimo);
   // get random key
   const randomShape = keys[Math.floor(Math.random() * keys.length)];
+  let indices: number[] = tetronimo[randomShape].coordinates[0]
+  const takenCell = indices.filter(cell => {
+    let row = Math.floor(cell / 10);
+    let column = cell % 10;
+    return board[row][column].filled === true
+  })
+  if (takenCell.length > 0) {
+    return {
+      type: gameTypes.gameOver,
+    }
+  }
   return {
     type: types.getBlock,
     payload: {

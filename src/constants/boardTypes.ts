@@ -1,6 +1,7 @@
 export const addBlock = "addBlock";
 export const reset = "reset";
 export const removeBlock = "removeBlock";
+export const getAnimation = "getAnimation"
 
 export interface cell {
   filled: boolean;

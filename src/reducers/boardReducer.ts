@@ -12,6 +12,7 @@ export const boardReducer = (
 ) => {
   switch (action.type) {
     case types.addBlock:
+      console.log(action.board)
       return {
         ...state,
         board: action.board,
@@ -20,7 +21,7 @@ export const boardReducer = (
     case types.reset:
       return {
         ...state,
-        board: initialBoard
+        board: action.board
       };
     case types.removeBlock:
       return {
@@ -28,6 +29,11 @@ export const boardReducer = (
         board: action.board,
         totalComplete: []
       };
+    case types.getAnimation:
+      return {
+        ...state,
+        board: action.board
+      }
     default:
       return state;
   }

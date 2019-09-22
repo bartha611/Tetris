@@ -5,7 +5,8 @@ const initialState: types.gameState = {
   lines: 0,
   pause: false,
   level: 1,
-  interval: 500
+  interval: 500,
+  gameOver: false
 };
 
 export const gameReducer = (
@@ -18,7 +19,8 @@ export const gameReducer = (
         ...state,
         score: action.score,
         lines: action.lines,
-        level: action.level
+        level: action.level,
+        interval: action.interval
       };
     case types.addLines:
       return {
@@ -30,6 +32,12 @@ export const gameReducer = (
         ...state,
         pause: !state.pause
       };
+    case types.gameOver:
+      return {
+        ...state,
+        pause: true,
+        gameOver: true
+      }
     default:
       return state;
   }

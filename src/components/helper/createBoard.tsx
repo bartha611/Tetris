@@ -14,7 +14,6 @@ export const createBoard = (
     items = [];
     for (let k = 0; k < board[i].length; k++) {
       if (board.length !== 22) {
-        console.log(board);
       }
       let cell = board[i][k];
       let cellNumber = 10 * i + k;
@@ -28,7 +27,7 @@ export const createBoard = (
           />
         );
       } else if (cell.filled === false) {
-        items.push(<div className="cell" />);
+        items.push(<div className="cell" style={{backgroundColor: "black"}} />);
       } else {
         items.push(
           <div
