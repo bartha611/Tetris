@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as interfaces from "../interfaces";
+import { potentialPosition } from "./checkBoard";
 
 export const createBoard = (
   state: interfaces.TetroState,
@@ -7,6 +8,7 @@ export const createBoard = (
 ) => {
   let boardHTMLObject: JSX.Element[] = [];
   const { board } = boardState;
+  const highlightedCells = potentialPosition(state, boardState);
   const { coordinates, index, color } = state;
   let items: JSX.Element[] = [];
   for (let i = 0; i < board.length; i++) {
@@ -24,6 +26,12 @@ export const createBoard = (
             className={`cell cell__filled cell__filled--${
               cell.filled ? cell.color : color
             }`}
+          />
+        );
+      } else if (highlightedCells.indexOf(cellNumber) > -1) {
+        items.push(
+          <div
+            className={`cell cell__filled cell__filled--${color} cell__filter`}
           />
         );
       } else {

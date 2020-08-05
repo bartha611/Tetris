@@ -13,6 +13,11 @@
   box-shadow: 0 0 1px white inset;
   background-color: black;
 
+  &__filter {
+    filter: brightness(30%);
+    -webkit-filter: brightness(30%);
+  }
+
   &__animation {
     animation-name: disappear;
     animation-duration: 800ms;

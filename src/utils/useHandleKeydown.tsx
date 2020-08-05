@@ -18,7 +18,7 @@ export const useHandleKeydown = (
 
   const handleKeydown = (e: KeyboardEvent): any => {
     const key = e.keyCode;
-    if (game.pause || game.gameOver) {
+    if (game.pause || game.gameOver || game.animation) {
       return;
     }
     switch (key) {

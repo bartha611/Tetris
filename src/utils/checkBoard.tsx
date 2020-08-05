@@ -70,15 +70,21 @@ export const checkRotation = (
   return true;
 };
 
-export const bottomCells = (
+export const potentialPosition = (
   state: interfaces.TetroState,
   boardState: interfaces.BoardState
 ): number[] => {
   let { coordinates, index } = state;
-  const units = coordinates[index];
+  let units = coordinates[index];
   const { board } = boardState;
   while (true) {
-
+    for (let k = 0; k < 4; k++) {
+      let checkRow = Math.floor(units[k] / 10);
+      let checkColumn = units[k] % 10;
+      if (checkRow > 20 || board[checkRow + 1][checkColumn].filled) {
+        return units;
+      }
+    }
+    units = units.map(unit => unit + 10);
   }
-  return coordinates[index];
 };

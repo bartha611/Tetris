@@ -32,7 +32,11 @@ export const MenuPanel = () => {
       </div>
       <div className="button">
         <div className="play">
-          <button type="submit" onClick={() => dispatch(actions.playPause())}>
+          <button
+            className="button"
+            type="submit"
+            onClick={() => dispatch(actions.playPause())}
+          >
             <i className={`fa ${gameObject.pause ? "fa-play" : "fa-pause"}`} />
           </button>
         </div>

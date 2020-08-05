@@ -1,6 +1,7 @@
 import * as types from "../constants";
 import * as interfaces from "../interfaces";
 import { tetronimo } from "../gameConfig/tetroShapes";
+import { potentialPosition } from "../utils/checkBoard";
 
 export const moveLeft = (currentTetro: number[][]): interfaces.TetroAction => {
   const newTetro = currentTetro.map(row => {
@@ -52,7 +53,6 @@ export const moveDown = (
       return (cell += 10);
     });
   });
-  console.log("moving down");
   return {
     type: types.move,
     coordinates: newCoordinates

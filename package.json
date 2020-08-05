@@ -5,9 +5,11 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "nodemon server.js localhost 8080",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "deploy": "aws s3 sync build/ s3://tetris611"
   },
   "dependencies": {
+    "aws-cli": "0.0.2",
     "bootstrap": "^4.3.1",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",

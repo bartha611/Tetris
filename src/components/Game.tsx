@@ -11,6 +11,8 @@ import { checkBottom } from "../utils/checkBoard";
 import { useHandleKeydown } from "../utils/useHandleKeydown";
 
 import { createBoard } from "../utils/createBoard";
+import { useHandleClick } from "../utils/useHandleClick";
+import { useHandleMousemove } from "../utils/useHandleMousemove";
 let interval: number | null = null;
 
 export const Game: React.FC = () => {
@@ -21,9 +23,6 @@ export const Game: React.FC = () => {
   const game: interfaces.GameState = State.game;
 
   React.useEffect(() => {
-    const moveDown = (): void => {
-      interval = setInterval(() => actions.moveDown(tetro), 500);
-    };
     if (!game.pause && !game.gameOver && !game.animation) {
       interval = setInterval(() => {
         dispatch(actions.moveDown(tetro));
@@ -34,9 +33,11 @@ export const Game: React.FC = () => {
     return (): void => {
       clearInterval(interval);
     };
-  }, [dispatch, game, tetro]);
+  }, [dispatch, game, tetro.coordinates]);
 
   useHandleKeydown(game, tetro, boardObject);
+  useHandleClick(game, tetro, boardObject);
+  useHandleMousemove(tetro, boardObject);
 
   React.useEffect(() => {
     const animation = async () => {

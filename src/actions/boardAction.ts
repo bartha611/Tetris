@@ -3,13 +3,14 @@ import * as interfaces from "../interfaces";
 
 export const addBlock = (
   state: interfaces.TetroState,
-  boardState: interfaces.BoardState
+  boardState: interfaces.BoardState,
+  block?: number[]
 ): interfaces.BoardAction => {
   const { coordinates, color, index } = state;
   const { board } = boardState;
   let newBoard: interfaces.Cell[][] = [];
   let newComplete: number[] = [];
-  const indices: number[] = coordinates[index];
+  const indices: number[] = block ? block : coordinates[index];
   for (let row = 0; row < 22; row++) {
     let boardRow: interfaces.Cell[] = [];
     for (let column = 0; column < 10; column++) {
