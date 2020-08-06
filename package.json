@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js localhost 8080",
     "build": "webpack --watch",
-    "deploy": "aws s3 sync build/ s3://tetris611"
+    "deploy": "aws s3 sync dist/ s3://tetris611"
   },
   "dependencies": {
     "aws-cli": "0.0.2",

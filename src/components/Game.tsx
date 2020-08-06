@@ -12,12 +12,11 @@ import { useHandleKeydown } from "../utils/useHandleKeydown";
 
 import { createBoard } from "../utils/createBoard";
 import { useHandleClick } from "../utils/useHandleClick";
-import { useHandleMousemove } from "../utils/useHandleMousemove";
 let interval: number | null = null;
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
-  const State: any = useSelector(state => state);
+  const State: any = useSelector((state) => state);
   const tetro: interfaces.TetroState = State.tetro;
   const boardObject: interfaces.BoardState = State.board;
   const game: interfaces.GameState = State.game;
@@ -37,7 +36,6 @@ export const Game: React.FC = () => {
 
   useHandleKeydown(game, tetro, boardObject);
   useHandleClick(game, tetro, boardObject);
-  useHandleMousemove(tetro, boardObject);
 
   React.useEffect(() => {
     const animation = async () => {

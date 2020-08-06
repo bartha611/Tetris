@@ -16,7 +16,10 @@ export const useHandleClick = (
     if (
       ["button", "fa fa-play", "fa fa-pause", "fa fa-refresh"].indexOf(
         elementClass
-      ) === -1
+      ) === -1 &&
+      !game.pause &&
+      !game.animation &&
+      !game.gameOver
     ) {
       dispatch(actions.addBlock(tetro, board, newBlock));
       dispatch(actions.getblock(board));
