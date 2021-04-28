@@ -1,11 +1,13 @@
 import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo, faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { sleep } from "../utils/sleep";
 import * as actions from "../actions";
 import * as interfaces from "../interfaces";
 
 export const MenuPanel = () => {
-  const State: any = useSelector(state => state);
+  const State: any = useSelector((state) => state);
   const gameObject: interfaces.GameState = State.game;
   const boardObject: interfaces.BoardState = State.board;
   const dispatch = useDispatch();
@@ -37,12 +39,12 @@ export const MenuPanel = () => {
             type="submit"
             onClick={() => dispatch(actions.playPause())}
           >
-            <i className={`fa ${gameObject.pause ? "fa-play" : "fa-pause"}`} />
+            <FontAwesomeIcon icon={gameObject.pause ? faPlay : faPause} />
           </button>
         </div>
         <div className="reset">
           <button type="submit" onClick={() => reset()}>
-            <i className="fa fa-refresh" />
+            <FontAwesomeIcon icon={faRedo} />
           </button>
         </div>
       </div>

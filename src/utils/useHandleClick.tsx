@@ -13,10 +13,13 @@ export const useHandleClick = (
   const handleClick = (event: KeyboardEvent) => {
     const newBlock = potentialPosition(tetro, board);
     const elementClass = (event.target as Element).className;
+    console.log(elementClass);
+    console.log(typeof elementClass);
     if (
       ["button", "fa fa-play", "fa fa-pause", "fa fa-refresh"].indexOf(
         elementClass
       ) === -1 &&
+      typeof elementClass !== "object" &&
       !game.pause &&
       !game.animation &&
       !game.gameOver
